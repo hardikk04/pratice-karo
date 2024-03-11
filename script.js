@@ -1,18 +1,27 @@
-const str1 = "hello";
-const str2 = "hardik";
+import * as THREE from "three";
 
-const fun = (str1, str2) => {
-  const merge = str1.concat(str2);
-  const obj = {};
-  for (let i = 0; i < merge.length; i++) {
-    obj[merge[i]] = (obj[merge[i]] || 0) + 1;
-  }
+const scene = new THREE.Scene();
 
-  let result = "";
-  for (let key in obj) {
-    result += key.repeat(obj[key]);
-  }
-  return result;
+const canvas = document.querySelector(".webgl");
+console.log(canvas);
+
+const cube = new THREE.BoxGeometry(1, 1, 1);
+const material = new THREE.MeshBasicMaterial({ color: 0xff0000 });
+const mesh = new THREE.Mesh(cube, material);
+scene.add(mesh);
+
+const sizes = {
+  width: window.innerWidth,
+  height: window.innerHeight,
 };
 
-console.log(fun(str1, str2));
+const camera = new THREE.PerspectiveCamera(75, sizes.width / sizes.height);
+camera.position.z = 3;
+scene.add(camera);
+
+const renderer = new THREE.WebGLRenderer({
+  canvas: canvas,
+});
+
+renderer.setSize(sizes.width, sizes.height);
+renderer.render(scene, camera);
